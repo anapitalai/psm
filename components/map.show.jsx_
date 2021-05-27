@@ -1,0 +1,160 @@
+import React, { useEffect } from 'react';
+import L from 'leaflet';
+import {} from 'mapbox-gl-leaflet';
+
+
+const  MyMap= (props) => {
+  const {record,property} = props;
+  console.log(record.params.lat);
+  console.log(record.params.lon);
+  console.log(record.params.eastings)
+
+  let mapContainer;
+
+
+
+  useEffect(() => {
+    const initialState = {
+      lng: 146.677,
+      lat: -6.677,
+      zoom: 16,
+
+    };
+
+    const map = L.map(mapContainer).setView([initialState.lat, initialState.lng], initialState.zoom);
+
+    
+   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+   }).addTo(map);
+
+  
+
+
+
+  L.marker([record.params.lat,record.params.lon]).addTo(map)
+   //L.marker([{prop.lat,lon}]).addTo(map)
+       .bindPopup(record.params.location_name)
+       .openPopup();
+
+  
+      
+
+
+  }, [mapContainer]);
+
+  return (
+    <div className="map-container" style={{height:"500px"}} ref={el => mapContainer = el}>
+
+    </div>
+  )
+}
+
+export default MyMap;
+
+
+
+
+
+
+
+// import React, { useRef, useEffect } from 'react';
+
+// const Map = props => {
+//   const mapRef = useRef();
+  
+//    //const { center, zoom } = props;
+// const center={ lat:-6.6777 , lng: 146.677} ;
+// const zoom=12;
+
+//   useEffect(() => {
+//     new window.ol.Map({
+//       target: mapRef.current.id,
+//       layers: [
+//         new window.ol.layer.Tile({
+//           source: new window.ol.source.OSM()
+//         })
+//       ],
+//       view: new window.ol.View({
+//         center: window.ol.proj.fromLonLat([center.lng, center.lat]),
+//         zoom: zoom
+//       })
+//     });
+
+//   }, [center, zoom]);
+
+//   return (
+
+//     <div ref={mapRef} id="map" className="map" style={{  height:'500px',fontSize:'50px'}}>
+    
+//     </div>
+//   );
+// };
+
+// export default Map;
+
+
+//import React, { useRef, useEffect } from 'react';
+
+
+
+// const Map = props => {
+//   const mapRef = useRef();
+  
+ //const { center, zoom } = props;
+// const center={ lat:-6.6777 , lng: 146.677} ;
+// const zoom=1;
+
+//   useEffect(() => {
+//     const map = new window.google.maps.Map(mapRef.current, {
+//       center: center,
+//       zoom: zoom
+//     });
+  
+//     new window.google.maps.Marker({ position: center, map: map });
+//   }, [center, zoom]);  
+
+//   return (
+//     <div ref={mapRef} className="map" style={{  height:'500px',fontSize:'50px'}}>
+//       Heeee
+//     </div>
+//   );
+// };
+
+// export default Map;
+
+
+// import React, { Component } from 'react';
+// import { withGoogleMap, GoogleMap } from 'react-google-maps';
+
+// class Map extends Component {   
+//     render() {   
+//         const GoogleMapExample = withGoogleMap(props => (
+
+//       <GoogleMap
+//         //defaultCenter = { { lat: 40.756795, lng: -73.954298 } }
+//         defaultCenter = { { lat:-6.6777 , lng: 146.677} }
+//         defaultZoom = { 9 }
+      
+//       >
+//       </GoogleMap>
+
+//    ));   
+//    return(
+//       <div>
+//         <GoogleMapExample
+//           containerElement={ 
+          
+//           <div style={{ height: `500px`, width: '500px' }} /> 
+//         }
+//           mapElement={ <div style={{ height: `100%` }} /> }
+//         />
+//       </div>
+//    );   }
+// };
+// export default Map;
+
+
+
+  
+
