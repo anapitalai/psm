@@ -18,6 +18,7 @@ const Borrow = require("./models/Borrow.model");
 const Registry = require("./models/Registry.model");
 const bodyParser = require("body-parser");
 const utm2ll = require("./hooks/utm2geo");
+require('dotenv').config()
 
 const adminNavigation = {
   name: "Admin",
@@ -169,7 +170,7 @@ const adminBro = new AdminBro({
               }
 
               return request;
-            }
+            },
           },
           delete: { isAccessible: canEditRecords },
 
@@ -313,7 +314,7 @@ const adminBro = new AdminBro({
             isVisible: { edit: false, show: true, list: true, filter: true },
           },
         },
-        
+
         //   actions: {
         //     new: {
         //       before: async (request) => {
@@ -379,12 +380,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //
 // Running the server
 const run = async () => {
-  await mongoose.connect("mongodb://202.1.39.189/psm", {
-    useNewUrlParser: true,
-  });
+  //await mongoose.connect("mongodb://"+process.env.DB_HOST_LOCAL + "/" + process.env.DB_LOCAL, {
+  await mongoose.connect("mongodb://"+process.env.DB_USER +":" + process.env.DB_PASS + "@" + process.env.DB_HOST + "/" + process.env.DB_LOCAL, {
+
+
+      useNewUrlParser: true,
+    }
+  );
   //await app.listen(8081, "202.1.39.153", () =>
-  await app.listen(8081, () =>
-    console.log(`Example app listening on port 8081!`)
+  await app.listen(3000, () =>
+    console.log(`Example app listening on port 3000!`)
   );
 };
 
