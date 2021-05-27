@@ -18,7 +18,7 @@ const Borrow = require("./models/Borrow.model");
 const Registry = require("./models/Registry.model");
 const bodyParser = require("body-parser");
 const utm2ll = require("./hooks/utm2geo");
-require('dotenv').config()
+require("dotenv").config();
 
 const adminNavigation = {
   name: "Admin",
@@ -381,9 +381,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Running the server
 const run = async () => {
   //await mongoose.connect("mongodb://"+process.env.DB_HOST_LOCAL + "/" + process.env.DB_LOCAL, {
-  await mongoose.connect("mongodb://"+process.env.DB_USER +":" + process.env.DB_PASS + "@" + process.env.DB_HOST + "/" + process.env.DB_LOCAL, {
-
-
+  await mongoose.connect(
+    "mongodb://" +
+      process.env.DB_USER +
+      ":" +
+      process.env.DB_PASS +
+      "@" +
+      process.env.DB_HOST +
+      "/" +
+      process.env.DB_LOCAL,
+    {
       useNewUrlParser: true,
     }
   );
