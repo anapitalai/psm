@@ -18,6 +18,7 @@ const Borrow = require("./models/Borrow.model");
 const Registry = require("./models/Registry.model");
 const bodyParser = require("body-parser");
 const utm2ll = require("./hooks/utm2geo");
+
 require("dotenv").config();
 
 const adminNavigation = {
@@ -70,7 +71,7 @@ const adminBro = new AdminBro({
     ],
     scripts: [
       "https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/build/ol.js",
-      "https://maps.googleapis.com/maps/api/js?key=AIzaSyDnSr24SXEBOdJvJTfkIslJ_vb6d80mOLU",
+      "https://maps.googleapis.com/maps/api/js?key="+process.env.GOOGLE_API_KEY,
       "https://unpkg.com/leaflet@1.7.1/dist/leaflet.js",
       "https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js",
     ],
