@@ -71,7 +71,7 @@ const adminBro = new AdminBro({
     ],
     scripts: [
       "https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/build/ol.js",
-      "https://maps.googleapis.com/maps/api/js?key="+process.env.GOOGLE_API_KEY,
+      //"https://maps.googleapis.com/maps/api/js?key="+process.env.GOOGLE_API_KEY,
       "https://unpkg.com/leaflet@1.7.1/dist/leaflet.js",
       "https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js",
     ],
@@ -378,10 +378,13 @@ const router = AdminBroExpressjs.buildAuthenticatedRouter(adminBro, {
 
 app.use(adminBro.options.rootPath, router);
 app.use(bodyParser.urlencoded({ extended: false }));
-//
-// Running the server
+
+//Running the server
 const run = async () => {
-  //await mongoose.connect("mongodb://"+process.env.DB_HOST_LOCAL + "/" + process.env.DB_LOCAL, {
+  // await mongoose.connect("mongodb://"+process.env.DB_HOST_LOCAL + "/" + process.env.DB_LOCAL, {
+  //   useNewUrlParser: true,
+  // }
+// );
   await mongoose.connect(
     "mongodb://" +
       process.env.DB_USER +
@@ -395,7 +398,7 @@ const run = async () => {
       useNewUrlParser: true,
     }
   );
-  //await app.listen(8081, "202.1.39.153", () =>
+ 
   await app.listen(3000, () =>
     console.log(`Example app listening on port 3000!`)
   );
