@@ -78,7 +78,7 @@ const adminBro = new AdminBro({
   },
 
   branding: {
-    companyName: "PNG Survey PSMs",
+    companyName: "PNG SURVEY PSMs",
     logo: "",
   },
   theme: {
@@ -89,11 +89,14 @@ const adminBro = new AdminBro({
   },
   resources: [
     {
+      
       resource: PSM,
       options: {
         navigation: restrictedNavigation,
         properties: {
           ownerId: {
+              // type: mongoose.Types.ObjectId,
+              // ref: 'User',
             isVisible: { edit: false, show: true, list: true, filter: true },
           },
           id: {
@@ -177,6 +180,8 @@ const adminBro = new AdminBro({
 
           //start here
           new: {
+            isAccessible: ({ currentAdmin }) =>
+            currentAdmin && currentAdmin.role === "admin",
             before: async (request) => {
               if (request.method == "post") {
                 const { eastings, northings, ...otherParams } = request.payload;
@@ -270,6 +275,8 @@ const adminBro = new AdminBro({
               );
               return uploadBeforeHook(modifiedRequest, context);
             },
+            isAccessible: ({ currentAdmin }) =>
+              currentAdmin && currentAdmin.role === "admin",
           },
           edit: {
             isAccessible: canModifyUsers,
@@ -288,10 +295,8 @@ const adminBro = new AdminBro({
               );
               return uploadBeforeHook(modifiedRequest, context);
             },
-          },
-          //edit: { isAccessible: canModifyUsers },
-          delete: { isAccessible: canModifyUsers },
-          //new: { isAccessible: canModifyUsers },
+          },   
+          delete: { isAccessible: canModifyUsers },      
           bulkDelete: { isAccessible: canModifyUsers },
         },
       },
@@ -315,28 +320,12 @@ const adminBro = new AdminBro({
             isVisible: { edit: false, show: true, list: true, filter: true },
           },
         },
-
-        //   actions: {
-        //     new: {
-        //       before: async (request) => {
-        //         if (request.payload.password) {
-        //           request.payload = {
-        //             ...request.payload,
-        //             encryptedPassword: await bcrypt.hash(
-        //               request.payload.password,
-        //               10
-        //             ),
-        //             password: undefined,
-        //           };
-        //         }
-        //         return request;
-        //       },
-        //     },
-        //     edit: { isAccessible: canModifyUsers },
-        //     delete: { isAccessible: canModifyUsers },
-        //     new: { isAccessible: canModifyUsers },
-        //     bulkDelete: { isAccessible: canModifyUsers },
-        //   },
+         actions:{
+           new:{
+            isAccessible: ({ currentAdmin }) =>
+            currentAdmin && currentAdmin.role === "admin"
+           }
+         }
       },
     },
   ],
@@ -359,46 +348,32 @@ const router = AdminBroExpressjs.buildAuthenticatedRouter(adminBro, {
   cookiePassword: "some-secret-password-used-to-secure-cookie",
 });
 
-//no auth
-//const router = AdminBroExpressjs.buildRouter(adminBro
-//   , {
-//   authenticate: async (email, password) => {
-//     const user = await User.findOne({ email });
-//     if (user) {
-//       const matched = await bcrypt.compare(password, user.encryptedPassword);
-//       if (matched) {
-//         return user;
-//       }
-//     }
-//     return false;
-//   },
-//   cookiePassword: "some-secret-password-used-to-secure-cookie"
-// }
-//);
 
 app.use(adminBro.options.rootPath, router);
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //Running the server
 const run = async () => {
-  // await mongoose.connect("mongodb://"+process.env.DB_HOST_LOCAL + "/" + process.env.DB_LOCAL, {
-  //   useNewUrlParser: true,
-  // }
-// );
   await mongoose.connect(
-    "mongodb://" +
-      process.env.DB_USER +
-      ":" +
-      process.env.DB_PASS +
-      "@" +
-      process.env.DB_HOST +
-      "/" +
-      process.env.DB_LOCAL,
+    "mongodb://" + process.env.DB_HOST_LOCAL + "/" + process.env.DB_LOCAL,
     {
       useNewUrlParser: true,
     }
   );
- 
+  // await mongoose.connect(
+  //   "mongodb://" +
+  //     process.env.DB_USER +
+  //     ":" +
+  //     process.env.DB_PASS +
+  //     "@" +
+  //     process.env.DB_HOST +
+  //     "/" +
+  //     process.env.DB_LOCAL,
+  //   {
+  //     useNewUrlParser: true,
+  //   }
+  // );
+
   await app.listen(3000, () =>
     console.log(`Example app listening on port 3000!`)
   );
