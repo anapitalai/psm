@@ -354,25 +354,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //Running the server
 const run = async () => {
-  await mongoose.connect(
-    "mongodb://" + process.env.DB_HOST_LOCAL + "/" + process.env.DB_LOCAL,
-    {
-      useNewUrlParser: true,
-    }
-  );
   // await mongoose.connect(
-  //   "mongodb://" +
-  //     process.env.DB_USER +
-  //     ":" +
-  //     process.env.DB_PASS +
-  //     "@" +
-  //     process.env.DB_HOST +
-  //     "/" +
-  //     process.env.DB_LOCAL,
+  //   "mongodb://" + process.env.DB_HOST_LOCAL + "/" + process.env.DB_LOCAL,
   //   {
   //     useNewUrlParser: true,
   //   }
   // );
+  await mongoose.connect(
+    "mongodb://" +
+      process.env.DB_USER +
+      ":" +
+      process.env.DB_PASS +
+      "@" +
+      process.env.DB_HOST +
+      "/" +
+      process.env.DB_LOCAL,
+    {
+      useNewUrlParser: true,
+    }
+  );
 
   await app.listen(3000, () =>
     console.log(`Example app listening on port 3000!`)

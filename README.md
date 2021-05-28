@@ -5,4 +5,4 @@
     "mapbox-gl-leaflet": "0.0.14",
     "react-google-maps": "^9.4.5",
     "react-leaflet": "^3.1.0"
-    "react@anversion"
+    "react@anyversion"
